@@ -1,0 +1,344 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>S7Connection</name>
+    </assembly>
+    <members>
+        <member name="T:S7Connection.ConnectionInfo">
+            <summary>
+            定义MPI链接参数
+            </summary>
+        </member>
+        <member name="F:S7Connection.ConnectionInfo.Addres">
+            <summary>
+            定义CPU的MPI地址
+            </summary>
+        </member>
+        <member name="F:S7Connection.ConnectionInfo.Rack">
+            <summary>
+            定义CPU的机架号
+            </summary>
+        </member>
+        <member name="F:S7Connection.ConnectionInfo.Slot">
+            <summary>
+            定义CPU的槽号
+            </summary>
+        </member>
+        <member name="T:S7Connection.S7MPI">
+            <summary>
+            通过MPI方式与西门子S7300/400 PLC进行通讯
+            </summary>
+        </member>
+        <member name="M:S7Connection.S7MPI.load_tool(System.Byte,System.String,System.Byte[0:,0:])">
+            <summary>
+            建立连接，同一个连接只容许调用一次
+            </summary>
+            <param name="nr">连接号1-4，设为1</param>
+            <param name="device">设备名称，设为"s7online"</param>
+            <param name="adr_table">连接参数,依次为:MPI地址、为0不使用、CPU槽号、CPU机架号。MPI地址为0标志着参数列表结束</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.new_ss(System.Byte)">
+            <summary>
+            设定激活某一个连接
+            </summary>
+            <param name="no">指定连接号，从1开始，依次对应load_tool中的参数adr_table所传递的连接参数顺序</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.unload_tool">
+            <summary>
+            断开连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.a_field_read(System.Int32,System.Int32,System.Int64@)">
+            <summary>
+            读取Output值
+            </summary>
+            <param name="no">指定QB号</param>
+            <param name="anzahl">指定有多少个QB字节需要读出</param>
+            <param name="buffer">返回读出的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.a_field_write(System.Int32,System.Int32,System.Int64@)">
+            <summary>
+            向Output写入值
+            </summary>
+            <param name="no">指定QB号</param>
+            <param name="anzahl">指定有多少个QB字节需要写入</param>
+            <param name="buffer">指定写入值</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.ag_zustand(System.Byte@)">
+            <summary>
+            获取PLC的运行状态
+            </summary>
+            <param name="buffer">返回0或者1，0表示Run;1表示Stop或者Restart</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.db_buch(System.UInt16[])">
+            <summary>
+            测试指定的DB块是否存在
+            </summary>
+            <param name="buffer">返回一系列块的存在状态，=0不存在，!=0存在</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.db_read(System.Int32,System.Int32,System.Int32@,System.Int64@)">
+            <summary>
+            从DB中读取数据
+            </summary>
+            <param name="dbno">指定DB块号</param>
+            <param name="dwno">指定读取的起始字序号，=0表示DBW0,=1表示DBW2</param>
+            <param name="anzahl"> 指定读取的对象有多少个字</param>
+            <param name="buffer">返回值</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.db_write(System.Int32,System.Int32,System.Int32@,System.Int64@)">
+            <summary>
+            向DB中写入数据
+            </summary>
+            <param name="dbno">指定DB块号</param>
+            <param name="dwno">指定写入的起始字序号，=0表示DBW0,=1表示DBW2</param>
+            <param name="anzahl">指定写入的对象有多少个字</param>
+            <param name="buffer">写入值</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.e_field_read(System.Int32,System.Int32,System.Int64@)">
+            <summary>
+            读取Input的值
+            </summary>
+            <param name="no">指定IB号</param>
+            <param name="anzahl">指定有多少个IB字节需要读出</param>
+            <param name="buffer">读取返回的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.mb_bittest(System.Int16,System.Int16,System.Int16@)">
+            <summary>
+            获取MB变量的位状态值
+            </summary>
+            <param name="mbno">指定M字节号</param>
+            <param name="bitno">指定位号，范围为0-7</param>
+            <param name="retwert">返回值，>0表示该位为1，=0表示该位为0</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.mb_resetbit(System.Int16,System.Int16)">
+            <summary>
+            复位MB变量的位状态
+            </summary>
+            <param name="mbno">指定M字节号</param>
+            <param name="bitno">指定位号范围为0-7，</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.mb_setbit(System.Int16,System.Int16)">
+            <summary>
+            置位MB变量的位状态
+            </summary>
+            <param name="mbno">指定M字节号</param>
+            <param name="bitno">指定位号，范围为0-7</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.m_field_read(System.Int16,System.Int16,System.Int64@)">
+            <summary>
+            读取M字节值
+            </summary>
+            <param name="no">指定M字节号</param>
+            <param name="anzahl">指定读取的字节数</param>
+            <param name="buffer">读取的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.m_field_write(System.Int16,System.Int16,System.Int64@)">
+            <summary>
+            写入M字节值
+            </summary>
+            <param name="no">指定M字节号</param>
+            <param name="anzahl">指定写入的字节数</param>
+            <param name="buffer">写入的值，若指定的字节数可容纳的数据小于写入的值，则溢出的值自动舍弃</param>
+            <returns></returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.Open(System.Byte,S7Connection.ConnectionInfo[])">
+            <summary>
+            建立连接，同一个连接只容许调用一次
+            </summary>
+            <param name="cnnNo">连接号1-4</param>
+            <param name="cnnInfo">指定链接参数</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.Close">
+            <summary>
+            关断链接
+            </summary>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.SetActive(System.Byte)">
+            <summary>
+            设定激活某一个连接
+            </summary>
+            <param name="activeNo">>指定连接号，从1开始，依次对应Open中的参数cnnInfo所传递的连接参数顺序</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.QBytes_read(System.Int32,System.Int32,System.Int64@)">
+            <summary>
+            读取指定数量的Output字节值
+            </summary>
+            <param name="startNo">指定起始字节号</param>
+            <param name="count">指定需要读取的Output字节数</param>
+            <param name="result">返回读取的结果</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.QBytes_write(System.Int32,System.Int32,System.Int64)">
+            <summary>
+            向指定数量的Output字节写入值
+            </summary>
+            <param name="startNo">指定起始字节号</param>
+            <param name="count">指定需要写入的Output字节数</param>
+            <param name="setValue">设定值</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.GetPLCStatus(System.Byte@)">
+            <summary>
+            获取PLC的运行状态
+            </summary>
+            <param name="revValue">返回0或者1，0表示Run;1表示Stop或者Restart</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.dbExist(System.Int32,System.Boolean@)">
+            <summary>
+            测试指定的DB块是否存在
+            </summary>
+            <param name="dbNo">指定需要测试的块号</param>
+            <param name="isExist">true表该块存在，否则为不存在</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.DBWords_read(System.Int32,System.Int32,System.Int32,System.Int64@)">
+             <summary>
+            读取指定数量的DBW数据
+             </summary>
+             <param name="dbNo">指定DB块号</param>
+             <param name="dwNo">指定读取的起始字序号，=0表示DBW0,=1表示DBW2，规律为*2</param>
+             <param name="count"> 指定读取的对象有多少个字</param>
+             <param name="revValue">返回值</param>
+             <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.DBWords_write(System.Int32,System.Int32,System.Int32,System.Int64)">
+            <summary>
+            写入指定数量的DBW数据
+            </summary>
+            <param name="dbNo">指定DB块号</param>
+            <param name="dwNo">指定读取的起始字序号，=0表示DBW0,=1表示DBW2，规律为*2</param>
+            <param name="count">指定写入的对象有多少个字</param>
+            <param name="setValue">指定设定值</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.IBytes_read(System.Int32,System.Int32,System.Int64@)">
+            <summary>
+            读取指定数量的IB数据
+            </summary>
+            <param name="startNo">指定起始字节号</param>
+            <param name="count">指定需要读取的Input字节数</param>
+            <param name="revValue">返回值</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.MBitStatusGet(System.Int16,System.Int16,System.Boolean@)">
+            <summary>
+             获取MB变量的位状态值
+            </summary>
+            <param name="mbNo">指定M字节号</param>
+            <param name="bitNo">指定位号，范围为0-7</param>
+            <param name="isTrue">返回值，true表示该位为1，false表示该位为0</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.MBitReset(System.Int16,System.Int16)">
+            <summary>
+            复位MB变量的位状态
+            </summary>
+            <param name="mbNo">指定M字节号</param>
+            <param name="bitNo">指定位号范围为0-7</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.MBitSet(System.Int16,System.Int16)">
+            <summary>
+            置位MB变量的位状态
+            </summary>
+            <param name="mbNo">指定M字节号</param>
+            <param name="bitNo">指定位号范围为0-7</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.MBytes_read(System.Int16,System.Int16,System.Int64@)">
+            <summary>
+            读取指定数量的MB值
+            </summary>
+            <param name="mbNo">指定M字节号</param>
+            <param name="count">指定读取的字节数</param>
+            <param name="revValue">读取的值</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.MBytes_write(System.Int16,System.Int16,System.Int64)">
+            <summary>
+            写入指定数量的MB值
+            </summary>
+            <param name="mbNo">指定M字节号</param>
+            <param name="count">指定读取的字节数</param>
+            <param name="setValue">设定值</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.GetErrInfo(System.Int32)">
+            <summary>
+            根据提供的错误码返回错误信息
+            </summary>
+            <param name="errCode">错误码</param>
+            <returns>返回错误信息</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.GetBit(System.Int32,System.Int32)">
+            <summary>
+            获取整数的位状态
+            </summary>
+            <param name="data">传送过来的整数</param>
+            <param name="bitNo">转换成二进制后，指定的第几位，0表示由右至左的最右边的第一位,范围为0-31</param>
+            <returns>返回指定的位状态，true表示为1，false表示为0</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.GetBit(System.Int32)">
+            <summary>
+            根据给定的32位整数，返回这32位中每一位的状态值
+            </summary>
+            <param name="data">指定32位整数</param>
+            <returns>返回表示每一位状态信息的数组</returns>
+        </member>
+        <member name="M:S7Connection.S7MPI.SetBit(System.Int64@,System.Int32)">
+            <summary>
+            对给定数据中的某一位进行置位操作
+            </summary>
+            <param name="souceData">需要进行位操作的数据</param>
+            <param name="bitNo">指定第几位，0代表最低位，即最右边的第一位</param>
+        </member>
+        <member name="M:S7Connection.S7MPI.SetBit(System.Int64@,System.Int32[])">
+            <summary>
+            对给定数据中的若干位位进行置位操作
+            </summary>
+            <param name="souceData">需要进行位操作的数据</param>
+            <param name="bitNo">指定第几位的数组，0代表最低位，即最右边的第一位</param>
+        </member>
+        <member name="M:S7Connection.S7MPI.ResetBit(System.Int64@,System.Int32)">
+            <summary>
+            对给定的数据中的某一位进行复位操作
+            </summary>
+            <param name="souceData">需要进行位操作的数据</param>
+            <param name="bitNo">指定第几位，0代表最低位，即最右边的第一位</param>
+        </member>
+        <member name="M:S7Connection.S7MPI.ResetBit(System.Int64@,System.Int32[])">
+            <summary>
+            对给定的数据中的多个位进行复位操作
+            </summary>
+            <param name="souceData">需要进行位操作的数据</param>
+            <param name="bitNo">指定第几位，0代表最低位，即最右边的第一位</param>
+        </member>
+        <member name="M:S7Connection.S7MPI.Open(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            打开对一个PLC的连接
+            </summary>
+            <param name="address">指定MPI地址</param>
+            <param name="slot">指定CPU槽号</param>
+            <param name="rack">指定CPU机架号</param>
+            <returns>返回10进制错误号，0表示没有错误</returns>
+        </member>
+    </members>
+</doc>
